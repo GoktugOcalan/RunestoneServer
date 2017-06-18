@@ -490,6 +490,17 @@ def unlockFeature():
             db((db.unlockables.user_id == auth.user.id)).update(while_code = 1)
         db.commit()
 
+def getUnlockedFeatures():
+    if auth.user:
+        userRecord = db((db.unlockables.user_id == auth.user.id)).select().first()
+        feature_list = []
+        res = {'image': userRecord.image,
+               'if_code': userRecord.if_code,
+               'for_code': userRecord.for_code,
+               'while_code': userRecord.while_code}
+        feature_list.append(res)
+        return json.dumps(feature_list)
+
 def getCompletionStatus():
     if auth.user:
         lastPageUrl = request.vars.lastPageUrl
