@@ -71,12 +71,26 @@ def index():
                     a.projected = float(request.vars.projected)
                     response.flash = 'projected grade updated'
 
+    points = db(db.user_points).select(
+        db.user_points.user_id,
+        db.user_points.first_name,
+        db.user_points.last_name,
+        db.user_points.all_time_points,
+        orderby =~ db.user_points.all_time_points,
+    )
+    
+    achievements = db(db.achievements).select(
+        db.achievements.ALL,
+        orderby =~ db.achievements.achievement_threshold,
+    )
 
     return dict(
 #        types = assignment_types,
         student = student,
         grade = grade,
         last_action = last_action,
+        points = points,
+        achievements = achievements,
         )
 
 @auth.requires(lambda: verifyInstructorStatus(auth.user.course_name, auth.user), requires_login=True)
