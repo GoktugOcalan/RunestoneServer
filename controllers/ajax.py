@@ -501,6 +501,11 @@ def getUnlockedFeatures():
         feature_list.append(res)
         return json.dumps(feature_list)
 
+def removeImage():
+    if auth.user:
+        db((db.images.user_id == auth.user.id)).update(image = '')
+        db.commit()
+
 def getCompletionStatus():
     if auth.user:
         lastPageUrl = request.vars.lastPageUrl
