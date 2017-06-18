@@ -8,6 +8,45 @@
 		{{ pass }}
 	</div>
 	<div class="col-md-8">
+		{{ if points: }}
+		<h2>Points Leaderboard</h2>
+		<table style="width: 50%; border: 1px solid black; border-collapse: collapse;">
+		    <tr style="border: 1px solid black; border-collapse: collapse;">
+			<th style="border: 1px solid black; border-collapse: collapse;">Ranking</th>
+			<th style="border: 1px solid black; border-collapse: collapse;">Full Name</th>
+			<th style="border: 1px solid black; border-collapse: collapse;">All Time Points</th>
+		    </tr>
+		    {{i = 1}}
+		    {{for row in points:}}
+		    <tr style="border: 1px solid black; border-collapse: collapse;">
+			{{ if row.user_id == student.id: }}
+			{{ studentTotalPoint = row.all_time_points}}
+			<td style="border: 1px solid black; border-collapse: collapse;"><b>{{=i}}</b></td>
+			<td style="border: 1px solid black; border-collapse: collapse;"><b>{{=row.first_name}} {{=row.last_name}}</b></td>
+			<td style="border: 1px solid black; border-collapse: collapse;"><b>{{=row.all_time_points}}</b></td>
+			{{pass}}
+			{{ if row.user_id != student.id: }}
+			<td style="border: 1px solid black; border-collapse: collapse;">{{=i}}</td>
+			<td style="border: 1px solid black; border-collapse: collapse;">{{=row.first_name}} {{=row.last_name}}</td>
+			<td style="border: 1px solid black; border-collapse: collapse;">{{=row.all_time_points}}</td>
+			{{pass}}
+		    </tr>
+		    {{i = i + 1}}
+		    {{pass}}
+		</table>
+		{{ pass }}
+		</div>
+		<div class="col-md-8">
+		{{ if achievements: }}
+		<h2>Achievements</h2>
+		    {{for row in achievements:}}
+			{{ if studentTotalPoint >= row.achievement_threshold: }}
+			<p>{{=row.achievement_name}} - {{=row.achievement_description}}</p>
+			{{ pass }}
+		    {{ pass }}            
+		{{ pass }}
+	</div>
+	<div class="col-md-8">
 	   For problem sets or exams that have not been graded yet, you can enter a projected number of points for yourself, which will be combined with your actual points from graded assignments to let you project your final point total for the course.
 	</div>
 	<div class="col-md-4">
