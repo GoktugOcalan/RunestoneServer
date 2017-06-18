@@ -167,6 +167,7 @@
       </li>
   </ul>
   {{pass}}
+  {{if allowImage == 0:}}
   <h2>More Information</h2>
      What is Runestone? How can you use and contribute to what we offer? To learn more about this project, <a href="http://interactivepython.org/runestone/static/overview/overview.html">see this overview</a>. For more information about the whole <b>Runestone Interactive</b> community and project, including how to contribute, please <a href="http://runestoneinteractive.org">click here</a>!
 
@@ -197,6 +198,24 @@
     academic papers.  We would never publish anything that revealed your identity.  We may share this data with fellow
     educational researchers, but rest assured that all personally identifying information will be anonymized before we do.
     If you have questions about this please feel free to <a href="mailto:runestoneinteractive@gmail.com">contact</a> us.</p>
+  {{pass}}
+  {{if allowImage == 1:}}
+    <div id='show-image-form'>
+        <p><br></p>
+        <p><b>Profile Avatar</b></p>
+        {{=imageForm}}
+    </div>
+  {{pass}}
+  {{if allowImage == 2:}}
+    <div id='show-image'>
+        <p><br></p>
+        <p><b>Profile Avatar</b></p>
+        <div id='image-file'>
+            <img src="{{=URL( 'download', args=image)}}" height="250" width="250" style="border:1px solid black"/>
+        </div>
+        <button class="btn btn-default" onclick="removeImage();window.location.reload()">Remove Image</button>
+    </div>
+  {{pass}}
 </div>
 
 
