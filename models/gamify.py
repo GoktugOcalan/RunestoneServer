@@ -28,3 +28,52 @@ db.define_table('unlockables',
   Field('while_code','integer'),
   migrate='runestone_unlockables.table'
 )
+
+#
+# when a user registers add them to the user_points table
+#
+def make_gamify_entry(field_dict,id_of_insert):
+    fName = db(db.auth_user.id == id_of_insert).select(db.auth_user.first_name).first()['first_name']
+    lName = db(db.auth_user.id == id_of_insert).select(db.auth_user.last_name).first()['last_name']
+
+    db.user_points.update_or_insert(user_id=id_of_insert, first_name=fName, last_name=lName, points=0, all_time_points=0)
+    db.unlockables.update_or_insert(user_id=id_of_insert, image=0, if_code=0, for_code=0, while_code=0)
+    db.images.update_or_insert(user_id=id_of_insert)
+    
+def fill_achievements_table():
+    db.achievements.truncate()
+    db.achievements.update_or_insert(
+        achievement_name = "Beginner Programmer",
+        achievement_description = "You earned your first point! Starting is half the battle!",
+        achievement_threshold = 1,
+    )
+    db.achievements.update_or_insert(
+        achievement_name = "Novice Programmer",
+        achievement_description = "You earned 50 points! It's a marathon, not a sprint!",
+        achievement_threshold = 50,
+    )
+    db.achievements.update_or_insert(
+        achievement_name = "Promising Programmer",
+        achievement_description = "You earned 150 points! Your future is bright!",
+        achievement_threshold = 150,
+    )
+    db.achievements.update_or_insert(
+        achievement_name = "Competent Programmer",
+        achievement_description = "You earned 500 points! Now you are getting the hang of it!",
+        achievement_threshold = 500,
+    )
+    db.achievements.update_or_insert(
+        achievement_name = "Professional Programmer",
+        achievement_description = "You earned 1000 points! You have mastered your craft!",
+        achievement_threshold = 1500,
+    )
+    db.achievements.update_or_insert(
+        achievement_name = "Veteran Programmer",
+        achievement_description = "You earned 3000 points! Your wisdom inspires new generations!",
+        achievement_threshold = 3000,
+    )
+    
+fill_achievements_table()
+
+if 'auth_user' in db:
+    db.auth_user._after_insert.append(make_gamify_entry)
