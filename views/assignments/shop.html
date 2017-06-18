@@ -1,0 +1,61 @@
+{{extend 'layout.html'}}
+
+<h1>{{=student.first_name}} {{=student.last_name}}</h1>
+<div class="row">
+    <div class="col-md-8">
+        <h2>Shop - Available Points : {{=points}}</h2>
+    </div>
+    <div class="col-md-8">
+        {{ if unlockables.image == 1: }}
+            <p>Profile Avatar - <button class="btn btn-default" disabled>Bought</button></p>
+        {{ else: }}
+            {{ if points >= 1000: }}
+                <p>Profile Avatar - <button class="btn btn-default" onclick="modifyUserPoints(-1000);unlockFeature('image');window.location.reload()">1000</button></p>
+            {{ else: }}
+                <p>Profile Avatar - <button class="btn btn-default" disabled>1000</button></p>
+            {{ pass }}
+        {{ pass }}
+        {{ if unlockables.if_code == 1: }}
+            <p>If Code Skeleton - <button class="btn btn-default" disabled>Bought</button></p>
+        {{ else: }}
+            {{ if points >= 300: }}
+                <p>If Code Skeleton - <button class="btn btn-default" onclick="modifyUserPoints(-300);unlockFeature('if_code');window.location.reload()">300</button></p>
+            {{ else: }}
+                <p>If Code Skeleton - <button class="btn btn-default" disabled>300</button></p>
+            {{ pass }}
+        {{ pass }}
+        {{ if unlockables.for_code == 1: }}
+            <p>For Code Skeleton - <button class="btn btn-default" disabled>Bought</button></p>
+        {{ else: }}
+            {{ if points >= 500: }}
+                <p>For Code Skeleton - <button class="btn btn-default" onclick="modifyUserPoints(-500);unlockFeature('for_code');window.location.reload()">500</button></p>
+            {{ else: }}
+                <p>For Code Skeleton - <button class="btn btn-default" disabled>500</button></p>
+            {{ pass }}
+        {{ pass }}
+        {{ if unlockables.while_code == 1: }}
+            <p>While Code Skeleton - <button class="btn btn-default" disabled>Bought</button></p>
+        {{ else: }}
+            {{ if points >= 500: }}
+                <p>While Code Skeleton - <button class="btn btn-default" onclick="modifyUserPoints(-500);unlockFeature('while_code');window.location.reload()">500</button></p>
+            {{ else: }}
+                <p>While Code Skeleton - <button class="btn btn-default" disabled>500</button></p>
+            {{ pass }}
+        {{ pass }}
+    </div>
+</div>
+
+<script language="javascript">
+function modifyUserPoints(delta){
+    var data = {
+        pointDelta: delta	//Add 10 points per completed chapter
+    };
+    jQuery.ajax({url: eBookConfig.ajaxURL + 'modifyUserPoints', data: data, async: false});
+}
+function unlockFeature(boughtFeature){
+    var data = {
+        feature: boughtFeature	//Add 10 points per completed chapter
+    };
+    jQuery.ajax({url: eBookConfig.ajaxURL + 'unlockFeature', data: data, async: false});    
+}
+</script>
