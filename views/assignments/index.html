@@ -47,17 +47,18 @@
 		{{ pass }}
 	</div>
 	<div class="col-md-8">
-	   For problem sets or exams that have not been graded yet, you can enter a projected number of points for yourself, which will be combined with your actual points from graded assignments to let you project your final point total for the course.
+        	<h2>Assignments</h2>
+		<p>For problem sets or exams that have not been graded yet, you can enter a projected number of points for yourself, which will be combined with your actual points from graded assignments to let you project your final point total for the course.</p>
 	</div>
-	<div class="col-md-4">
-		<h3>Course Points</h3>
-		<div class="row" style="text-align:center;">
-			<div class="col-md-6"><strong>Projected</strong></div>
+	<div class="col-md-8">
+		<h2>Course Points</h2>
+		<div class="row" style="text-align:left;">
+			<div class="col-md-3"><strong>Projected</strong></div>
 			<div class="col-md-3">Current</div>
 			<div class="col-md-3">Maximum</div>
 		</div>
-		<div class="row" style="text-align:center;">
-			<div class="col-md-6"><strong><span class="hidden">Projected Points:</span> {{=grade.points(projected=True)}}</strong></div>
+		<div class="row" style="text-align:left;">
+			<div class="col-md-3"><strong><span class="hidden">Projected Points:</span> {{=grade.points(projected=True)}}</strong></div>
 			<div class="col-md-3"><span class="hidden">Current Points:</span> {{=grade.points()}}</div>
 			<div class="col-md-3"><span class="hidden">Max Points:</span> {{=grade.points(potential=True)}}</div>
 		</div>
