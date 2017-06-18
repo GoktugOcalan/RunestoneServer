@@ -462,6 +462,20 @@ def updatelastpage():
                 all_time_points = currentAllTimePoint + 1)
         db.commit()
 
+def modifyUserPoints():
+    pointsDelta = int(request.vars.pointDelta)
+    if auth.user:
+        user_point_information = db((db.user_points.user_id == auth.user.id)).select().first()
+        currentPoint = user_point_information.points
+        currentAllTimePoint = user_point_information.all_time_points
+        if pointsDelta > 0:
+            db((db.user_points.user_id == auth.user.id)).update(
+                points = currentPoint + pointsDelta,
+                all_time_points = currentAllTimePoint + pointsDelta)
+        else:
+            db((db.user_points.user_id == auth.user.id)).update(points = currentPoint + pointsDelta)
+        db.commit()
+
 def getCompletionStatus():
     if auth.user:
         lastPageUrl = request.vars.lastPageUrl
