@@ -115,7 +115,25 @@ def user():
     except AttributeError: # not all auth methods actually have a submit button (e.g. user/not_authorized)
         pass
 
-    return dict(form=form)
+    allowImage = 0
+    if 'profile' in request.args(0):
+        allowImage = db((db.unlockables.user_id == auth.user.id)).select(db.unlockables.image).first().image
+        userRecord = db((db.images.user_id == auth.user.id)).select().first()
+        if userRecord.image:
+            allowImage = 2
+            image = userRecord.image            
+            return dict(form=form, allowImage=allowImage, image=image)
+        else:  
+            imageForm = SQLFORM(db.images, userRecord, upload=URL('download'), submit_button='Upload', showid=False)
+            try:
+                imageForm.element(_id='submit_record__row')[1][0]['_class']='btn btn-default'
+            except AttributeError: # not all auth methods actually have a submit button (e.g. user/not_authorized)
+                pass
+            if imageForm.process().accepted:
+                redirect(URL('default', 'user/profile'))
+            return dict(form=form, allowImage=allowImage, imageForm=imageForm)
+
+    return dict(form=form, allowImage=allowImage)
 
 def download(): return response.download(request,db)
 def call(): return service()
