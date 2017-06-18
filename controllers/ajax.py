@@ -476,6 +476,20 @@ def modifyUserPoints():
             db((db.user_points.user_id == auth.user.id)).update(points = currentPoint + pointsDelta)
         db.commit()
 
+def unlockFeature():
+    feature = request.vars.feature
+    if auth.user:
+        db((db.unlockables.user_id == auth.user.id)).select().first()
+        if (feature == "image"):
+            db((db.unlockables.user_id == auth.user.id)).update(image = 1)        
+        elif (feature == "if_code"):
+            db((db.unlockables.user_id == auth.user.id)).update(if_code = 1)         
+        elif (feature == "for_code"):
+            db((db.unlockables.user_id == auth.user.id)).update(for_code = 1)             
+        elif (feature == "while_code"):
+            db((db.unlockables.user_id == auth.user.id)).update(while_code = 1)
+        db.commit()
+
 def getCompletionStatus():
     if auth.user:
         lastPageUrl = request.vars.lastPageUrl
