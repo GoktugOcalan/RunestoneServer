@@ -448,6 +448,19 @@ def updatelastpage():
                    status = completionFlag,
                    end_date = datetime.datetime.now())
         db.commit()
+        completionFlag = int(request.vars.completionFlag)        
+		user_point_information = db((db.user_points.user_id == auth.user.id)).select().first()
+        currentPoint = user_point_information.points
+        currentAllTimePoint = user_point_information.all_time_points
+        if completionFlag == 1:     #1 means chaper completed, add 10 points
+            db((db.user_points.user_id == auth.user.id)).update(
+                points = currentPoint + 10,logBookEvent
+                all_time_points = currentAllTimePoint + 10)
+        elif completionFlag == 0:   #0 means chapter started, add 1 point
+            db((db.user_points.user_id == auth.user.id)).update(
+                points = currentPoint + 1,
+                all_time_points = currentAllTimePoint + 1)
+        db.commit()
 
 def getCompletionStatus():
     if auth.user:
